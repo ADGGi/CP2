@@ -1,6 +1,20 @@
+'''
+[note]
+- row data의 행, 렬, 날짜 등을 다듬는 함수
+- label 컬럼에 대한 작업을 포함하지 않음
+- 데이터를 받으면, 먼저 이 함수로 데이터를 전처리 한 후, labeling을 하는 것을 추천
+'''
+
 import pandas as pd
 import numpy as np
 from numpy.core.numeric import NaN
+
+### 구글드라이브 연동 (코랩 환경일 경우)
+# from google.colab import drive
+# drive.mount('/content/drive')
+
+PATH = '파일경로'
+data = pd.read_excel(PATH, keep_default_na=False)
 
 def CP2_preprocessing(data):
   
@@ -63,4 +77,12 @@ def CP2_preprocessing(data):
   # 대화내용이 있거나, 파일이나 사진을 보낸 row만 걸러내기
   data = data[(data['대화 내용'] != '') | (data['파일(영상, 음성), 사진 여부'] != '')] 
 
+  data = data[['날짜', '시간', 'celeb', '회원 코드', '대화 내용', '파일(영상, 음성), 사진 여부']]
+
+  data.columns = ['date', 'time', 'celeb', 'code', 'comments', 'file']
+
   return data
+
+result = CP2_preprocessing(data)
+
+result.to_csv('파일경로/이름.csv')

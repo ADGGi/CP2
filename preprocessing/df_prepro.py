@@ -77,9 +77,12 @@ def CP2_preprocessing(data):
   # 대화내용이 있거나, 파일이나 사진을 보낸 row만 걸러내기
   data = data[(data['대화 내용'] != '') | (data['파일(영상, 음성), 사진 여부'] != '')] 
 
+  # 컬럼 순서, 이름 변경
   data = data[['날짜', '시간', 'celeb', '회원 코드', '대화 내용', '파일(영상, 음성), 사진 여부']]
-
   data.columns = ['date', 'time', 'celeb', 'code', 'comments', 'file']
+
+  # date 컬럼 datetime으로 변경
+  data['date'] = pd.to_datetime(data['date'])
 
   return data
 
